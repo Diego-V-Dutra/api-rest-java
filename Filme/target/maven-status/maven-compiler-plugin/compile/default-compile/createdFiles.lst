@@ -1,0 +1,5 @@
+model\Filme.class
+com\api\Filme\Application.class
+controllers\FilmeControllers.class
+com\api\Filme\ServletInitializer.class
+repositories\FilmeRepository.class

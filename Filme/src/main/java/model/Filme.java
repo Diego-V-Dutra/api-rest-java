@@ -11,7 +11,7 @@ public class Filme {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String titulo;
-    private String autor;
+    private String diretor;
     private int ano;
     
     public long getId(){
@@ -28,11 +28,11 @@ public class Filme {
         this.titulo = titulo;
     }
 
-    public String getAutor() {
-        return autor;
+    public String getDiretor() {
+        return diretor;
     }
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setDiretor(String diretor) {
+        this.diretor = diretor;
     }
 
     public int getAno() {

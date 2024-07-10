@@ -16,45 +16,39 @@ import repositories.FilmeRepository;
 
 @RestController
 public class FilmeControllers {
-     @Autowired
-    FilmeRepository filmeRepository;
-    @RequestMapping(value="/filmes", 
-            method = RequestMethod.GET)
     
-    public List<Filme> helloWorld(){   
+    @Autowired
+    FilmeRepository filmeRepository;
+    
+    @RequestMapping(value="/filmes", method = RequestMethod.GET)
+    
+    public List<Filme> getFilmes(){   
       return  filmeRepository.findAll();
     }
     
+    @RequestMapping(value = "/filme", method = RequestMethod.POST)
     public Filme post(@Valid @RequestBody Filme filme){
         return filmeRepository.save(filme);
     }
     
-    @RequestMapping(value="/filme/{id}",
-            method=RequestMethod.PUT)
-    
-    public ResponseEntity<Filme> put(
-    @PathVariable(value="id") long id,
-    @Valid @RequestBody Filme novoFilme){
-        Optional<Filme> filmeVelho = 
-                filmeRepository.findById(id);
+    @RequestMapping(value="/filme/{id}", method=RequestMethod.PUT) 
+    public ResponseEntity<Filme> put( @PathVariable(value="id") long id, @Valid @RequestBody Filme novoFilme){
+        Optional<Filme> filmeVelho = filmeRepository.findById(id);
         if(filmeVelho.isPresent()){
             Filme filme = filmeVelho.get();
-            filme.setAutor(novoFilme.getAutor());
+            filme.setDiretor(novoFilme.getDiretor());
             filme.setTitulo(novoFilme.getTitulo());
             filme.setAno(novoFilme.getAno());
             filmeRepository.save(filme);
-            return new ResponseEntity<>(filme,
-                    HttpStatus.OK);        
+            
+            return new ResponseEntity<>(filme, HttpStatus.OK);        
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @RequestMapping(value="/filme/{id}",
-            method=RequestMethod.DELETE)
-    public ResponseEntity<Object> delete(
-    @PathVariable(value="id") long id) {
-        Optional<Filme> filme
-                = filmeRepository.findById(id);
+    @RequestMapping(value="/filme/{id}", method=RequestMethod.DELETE)
+    public ResponseEntity<Object> delete( @PathVariable(value="id") long id) {
+        Optional<Filme> filme = filmeRepository.findById(id);
         if(filme.isPresent()){
             filmeRepository.delete(filme.get());
             return new ResponseEntity<>(HttpStatus.OK);
@@ -62,15 +56,12 @@ public class FilmeControllers {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
     
-    @RequestMapping(value="/filme/{id}", method = 
-            RequestMethod.GET)
-    public ResponseEntity<Filme> getById(
-    @PathVariable(value="id") long id){
-    Optional<Filme> filme =
-            filmeRepository.findById(id);
+    @RequestMapping(value="/filme/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Filme> getById(@PathVariable(value="id") long id){
+    Optional<Filme> filme = filmeRepository.findById(id);
     if(filme.isPresent()){
         return new ResponseEntity<>(filme.get(), HttpStatus.OK);
     }
-    return new ResponseEntity<>(filme.get(), HttpStatus.NOT_FOUND);
+    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
